@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: AIRA-Social-Media-Agent
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_IDS
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: GEMINI_CAPTION_MODEL
+        value: "gemini-2.5-flash"
+      - key: NANO_BANANA_MODEL
+        value: "gemini-3-pro-image"
+      - key: IG_USER_ID
+        sync: false
+      - key: IG_ACCESS_TOKEN
+        sync: false
+      - key: IG_GRAPH_VERSION
+        value: "v23.0"
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: TIMEZONE
+        value: "Asia/Singapore"
+      - key: DEMO_MODE
+        value: "false"

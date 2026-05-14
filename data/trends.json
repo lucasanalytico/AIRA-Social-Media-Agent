@@ -1,0 +1,53 @@
+{
+  "active_trend": {
+    "id": "swipe_to_reveal",
+    "name": "Swipe to Reveal (Carousel)",
+    "description": "Interactive carousels that use emojis and text to engage the audience to swipe for a 'reveal.'",
+    "examples": [
+      "https://www.instagram.com/p/DXb1nRbDsfW/",
+      "https://www.instagram.com/p/DXZPQjqkxQr/"
+    ]
+  },
+  "ideas": [
+    {
+      "id": "salary_reveal",
+      "title": "The Salary Reveal",
+      "slide1_hook": "How much do GA graduates earn?",
+      "slide2_reveal": "Singapore tech salary statistics — entry, mid, senior tier breakdowns",
+      "course_angle": "Data Analytics / Software Engineering Immersive",
+      "cta": "Comment 'SALARY' for the full Singapore tech pay report."
+    },
+    {
+      "id": "secret_skill",
+      "title": "The Secret Skill",
+      "slide1_hook": "The #1 skill tech recruiters in Singapore want...",
+      "slide2_reveal": "Soft skills + Technical proficiency + AI literacy",
+      "course_angle": "AI Bootcamp / Data Analytics",
+      "cta": "DM us 'SKILL' for our free skill-gap diagnostic."
+    },
+    {
+      "id": "project_reveal",
+      "title": "The Project Reveal",
+      "slide1_hook": "Can a beginner build this in 12 weeks?",
+      "slide2_reveal": "A complex full-stack app built by a Software Engineering Immersive student",
+      "course_angle": "Software Engineering Immersive",
+      "cta": "Tap the link in bio to see the project demo + apply."
+    },
+    {
+      "id": "instructor_tip",
+      "title": "The Instructor's Tip",
+      "slide1_hook": "Best advice for career changers from a Senior Dev...",
+      "slide2_reveal": "Three actionable steps you can take this week — no degree required",
+      "course_angle": "Software Engineering Immersive / Career Pivot",
+      "cta": "Save this post + DM 'PIVOT' for our career-change roadmap."
+    },
+    {
+      "id": "workshop_invite",
+      "title": "The Workshop Invite",
+      "slide1_hook": "Want to learn AI for free?",
+      "slide2_reveal": "Details for the next Analytico Training Academy free AI workshop",
+      "course_angle": "AI Bootcamp (lead-gen workshop)",
+      "cta": "Register via the link in bio — limited seats."
+    }
+  ]
+}
