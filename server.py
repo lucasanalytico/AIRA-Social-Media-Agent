@@ -13,8 +13,11 @@ Phase 1+2+5 scope (no LLM, no IG yet):
 """
 import json
 import os
+import re
 import secrets
 import time
+
+_SAFE_POST_ID = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
 from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -23,6 +26,7 @@ import requests
 from src import cards, schedule, state
 from src.caption import generate_caption
 from src.publisher import PublishError, publish_carousel
+from src.scheduler import start_scheduler
 
 
 def _load_dotenv():
@@ -167,6 +171,7 @@ def _handle_schedule_choice(chat_id: str, idea_id: str, message_id: str, slot_ke
         "idea_id": idea_id,
         "chat_id": chat_id,
         "caption": draft.get("caption"),
+        "hashtags": draft.get("hashtags"),
         "fire_at_iso": fire_at.isoformat(),
         "card_message_id": int(message_id),
         "status": "queued",
@@ -189,7 +194,7 @@ def _handle_schedule_choice(chat_id: str, idea_id: str, message_id: str, slot_ke
             f"📅 *Queued* `{post_id}`\n"
             f"🕐 Fires at: {schedule.format_sgt(fire_at)}\n"
             f"💡 Idea: {idea_id}\n\n"
-            f"_(Image generation + IG publish wire up in Phase 4–6.)_"
+            f"_The scheduler will render slides + publish to Instagram automatically._"
         ),
         "parse_mode": "Markdown",
     })
@@ -392,10 +397,15 @@ class Handler(BaseHTTPRequestHandler):
                 "posted": state.posts_log_load(),
             })
         elif self.path.startswith("/media/"):
-            # /media/<post_id>/<n>.jpg — only allow simple [a-f0-9]+/[0-9]+.jpg shapes
+            # /media/<post_id>/<n>.jpg — allow alphanumeric + underscore/hyphen
             rest = self.path[len("/media/"):]
             parts = rest.split("/")
-            if len(parts) != 2 or not parts[0].isalnum() or not parts[1].endswith(".jpg"):
+            if (
+                len(parts) != 2
+                or not _SAFE_POST_ID.match(parts[0])
+                or not parts[1].endswith(".jpg")
+                or not parts[1][:-4].isdigit()
+            ):
                 self._send_json(404, {"error": "not found"})
                 return
             safe_path = os.path.join(MEDIA_ROOT, parts[0], parts[1])
@@ -426,4 +436,5 @@ if __name__ == "__main__":
     print(f"AIRA Social Media Agent listening on 0.0.0.0:{port}")
     print(f"  Allowed chat IDs: {TELEGRAM_CHAT_IDS}")
     print(f"  Public base URL:  {PUBLIC_BASE_URL or '(unset)'}")
+    start_scheduler(_tg)
     server.serve_forever()

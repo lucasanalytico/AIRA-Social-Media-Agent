@@ -1,0 +1,31 @@
+{% extends "_base.html.j2" %}
+{% block slide %}
+<div class="slide">
+  <div class="topbar">
+    <span class="dot"></span>
+    <span>The Reveal</span>
+  </div>
+
+  <div>
+    <h1 class="reveal-headline">{{ reveal_headline }}</h1>
+
+    <div class="stats-grid">
+      {% for row in stats %}
+      <div class="stat-row">
+        <div class="num">{{ "%02d"|format(loop.index) }}</div>
+        <div class="text">{{ row|safe }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if cta %}
+    <div class="cta-pill">{{ cta }}</div>
+    {% endif %}
+  </div>
+
+  <div class="wordmark">
+    <span class="brand-name">Analytico Training Academy</span>
+    <span>analytico.sg</span>
+  </div>
+</div>
+{% endblock %}
