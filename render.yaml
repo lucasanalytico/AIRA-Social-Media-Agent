@@ -1,30 +1,47 @@
 services:
   - type: web
-    name: AIRA-Social-Media-Agent
+    name: aira-social-media-agent
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free
+    region: singapore
     healthCheckPath: /health
+    autoDeploy: true
     envVars:
+      # All secrets and per-environment values are set manually in the Render
+      # dashboard (sync:false). They are NEVER committed to git.
+
+      # --- Telegram ---
       - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: TELEGRAM_CHAT_IDS
         sync: false
+
+      # --- Gemini (captions + slide-2 structurer) ---
       - key: GOOGLE_API_KEY
         sync: false
       - key: GEMINI_CAPTION_MODEL
-        value: "gemini-2.5-flash"
-      - key: NANO_BANANA_MODEL
-        value: "gemini-3-pro-image"
+        value: gemini-2.5-flash
+
+      # --- Instagram Graph API ---
       - key: IG_USER_ID
         sync: false
       - key: IG_ACCESS_TOKEN
         sync: false
+      - key: IG_PAGE_ID
+        sync: false
       - key: IG_GRAPH_VERSION
-        value: "v23.0"
+        value: v23.0
+
+      # --- Hosting ---
+      # PUBLIC_BASE_URL is the Render-assigned URL after the service is created
+      # (e.g. https://aira-social-media-agent.onrender.com). Set it in the
+      # dashboard once the service exists, then trigger a manual redeploy.
       - key: PUBLIC_BASE_URL
         sync: false
+
+      # --- Behaviour ---
       - key: TIMEZONE
-        value: "Asia/Singapore"
-      - key: DEMO_MODE
-        value: "false"
+        value: Asia/Singapore
+      - key: SCHEDULER_POLL_SECONDS
+        value: "20"
