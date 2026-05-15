@@ -15,15 +15,37 @@
       "slide1_hook": "How much do GA graduates earn?",
       "slide2_reveal": "Singapore tech salary statistics — entry, mid, senior tier breakdowns",
       "course_angle": "Data Analytics / Software Engineering Immersive",
-      "cta": "Comment 'SALARY' for the full Singapore tech pay report."
+      "cta": "Comment 'SALARY' for the full Singapore tech pay report.",
+      "caption": "Curious what a career switch into tech actually pays in Singapore? 💼\n\nMost career changers we meet have a number in their head — and it's usually outdated. Real outcomes from General Assembly's Singapore alumni paint a clearer picture across entry, mid, and senior roles.\n\nNumbers anchor everything: the courses to pick, how aggressively to switch, and what 'success' looks like 12 months in. Worth knowing before the curriculum, not after.\n\nComment 'SALARY' for the full Singapore tech pay report.",
+      "hashtags": "#sgcareer #techsg #careertransition #upskillingsg #dataanalyticssg #softwareengineeringsg #generalassemblysg #analyticotrainingacademy",
+      "slide2": {
+        "headline": "Real Singapore Tech Salaries",
+        "stats": [
+          "Entry-level: <strong>S$4.5K–6K/mo</strong> typical (MOM data)",
+          "Mid-career: <strong>S$7K–10K/mo</strong> after 2–3 years",
+          "Senior IC roles: <strong>S$12K+/mo</strong> with leadership scope"
+        ],
+        "cta": "Comment 'SALARY' for the full report."
+      }
     },
     {
       "id": "secret_skill",
       "title": "The Secret Skill",
-      "slide1_hook": "The #1 skill tech recruiters in Singapore want...",
+      "slide1_hook": "The #1 skill tech recruiters in Singapore want",
       "slide2_reveal": "Soft skills + Technical proficiency + AI literacy",
       "course_angle": "AI Bootcamp / Data Analytics",
-      "cta": "DM us 'SKILL' for our free skill-gap diagnostic."
+      "cta": "DM us 'SKILL' for our free skill-gap diagnostic.",
+      "caption": "Singapore tech recruiters keep saying the same thing — and it isn't 'more Python.' 🎯\n\nThe candidates getting hired in 2026 stack three things: communication that lands, technical depth in one stack, and working fluency with AI tools. Each one alone gets you screened. All three gets you offered.\n\nIf you're upskilling and only counting tech courses, you're optimising the wrong axis.\n\nDM us 'SKILL' for our free skill-gap diagnostic.",
+      "hashtags": "#sgcareer #techsg #aiskills #upskillingsg #careergrowth #softskills #generalassemblysg #analyticotrainingacademy #sgtech",
+      "slide2": {
+        "headline": "The Hiring Trifecta",
+        "stats": [
+          "<strong>Soft skills</strong>: clear writing, stakeholder communication",
+          "<strong>Technical depth</strong>: one stack, deeply",
+          "<strong>AI literacy</strong>: daily use, not just awareness"
+        ],
+        "cta": "DM 'SKILL' for the free diagnostic."
+      }
     },
     {
       "id": "project_reveal",
@@ -31,15 +53,37 @@
       "slide1_hook": "Can a beginner build this in 12 weeks?",
       "slide2_reveal": "A complex full-stack app built by a Software Engineering Immersive student",
       "course_angle": "Software Engineering Immersive",
-      "cta": "Tap the link in bio to see the project demo + apply."
+      "cta": "Tap the link in bio to see the project demo + apply.",
+      "caption": "12 weeks. Zero coding background. Full-stack production app. 🚀\n\nThe Software Engineering Immersive isn't a tutorial dump — it's a structured route from 'I open the terminal nervously' to shipping real apps with auth, database, deploy, the works.\n\nNot every student ships something this polished. But the ones who put the hours in consistently surprise themselves — and recruiters.\n\nTap the link in bio to see the project demo and apply.",
+      "hashtags": "#sgcareer #softwareengineeringsg #fullstackdev #careerchange #generalassemblysg #codingbootcamp #techsg #analyticotrainingacademy #sgjobs",
+      "slide2": {
+        "headline": "From Zero to Full-Stack in 12 Weeks",
+        "stats": [
+          "<strong>Frontend</strong>: React, TypeScript, responsive design",
+          "<strong>Backend</strong>: Node, Express, authenticated APIs",
+          "<strong>Deploy</strong>: Postgres, CI/CD, live production URL"
+        ],
+        "cta": "Link in bio for the demo + application."
+      }
     },
     {
       "id": "instructor_tip",
       "title": "The Instructor's Tip",
-      "slide1_hook": "Best advice for career changers from a Senior Dev...",
+      "slide1_hook": "Best advice for career changers from a Senior Dev",
       "slide2_reveal": "Three actionable steps you can take this week — no degree required",
       "course_angle": "Software Engineering Immersive / Career Pivot",
-      "cta": "Save this post + DM 'PIVOT' for our career-change roadmap."
+      "cta": "Save this post + DM 'PIVOT' for our career-change roadmap.",
+      "caption": "You don't need a CS degree. You need three weeks of deliberate practice and one honest conversation with someone who's already pivoted. 🛠️\n\nOur senior instructors keep giving career changers the same starting advice — and it isn't 'sign up.' It's about stripping the false signals out of the journey and getting clarity on what actually moves the needle in your first 90 days.\n\nThe candidates who pivot fastest treat the first three weeks like a job, not a course.\n\nSave this post and DM 'PIVOT' for our career-change roadmap.",
+      "hashtags": "#sgcareer #careerchange #careerpivot #upskillingsg #generalassemblysg #softwareengineeringsg #analyticotrainingacademy #techsg",
+      "slide2": {
+        "headline": "Three Steps to Pivot Now",
+        "stats": [
+          "<strong>Week 1</strong>: one stack, one course, one project",
+          "<strong>Week 2</strong>: ship publicly, even if rough",
+          "<strong>Week 3</strong>: book 3 coffee chats with practitioners"
+        ],
+        "cta": "Save + DM 'PIVOT' for the roadmap."
+      }
     },
     {
       "id": "workshop_invite",
@@ -47,7 +91,18 @@
       "slide1_hook": "Want to learn AI for free?",
       "slide2_reveal": "Details for the next Analytico Training Academy free AI workshop",
       "course_angle": "AI Bootcamp (lead-gen workshop)",
-      "cta": "Register via the link in bio — limited seats."
+      "cta": "Register via the link in bio — limited seats.",
+      "caption": "Two hours. Zero cost. One framework for working with LLMs that you can apply Monday morning. 🤖\n\nThe next free AI workshop from Analytico Training Academy covers the practical workflow used by teams shipping LLM features in production — prompt patterns, retrieval, evaluation. Built for working professionals who want hands-on, not slideware.\n\nSeats are capped to keep the hands-on portion useful, not chaotic.\n\nRegister via the link in bio — limited seats.",
+      "hashtags": "#sgcareer #aiworkshop #aiskills #aibootcamp #techsg #upskillingsg #generalassemblysg #analyticotrainingacademy #freeworkshop",
+      "slide2": {
+        "headline": "Free Hands-On AI Workshop",
+        "stats": [
+          "<strong>Format</strong>: 2 hours, live in Singapore",
+          "<strong>Content</strong>: LLM workflow, prompts, retrieval, evals",
+          "<strong>Audience</strong>: working professionals, no AI background needed"
+        ],
+        "cta": "Register via the link in bio."
+      }
     }
   ]
 }

@@ -8,7 +8,8 @@ Telegram-driven Instagram carousel publisher for **Analytico Training Academy (A
 
 - Python 3.11
 - stdlib `HTTPServer` (no Flask/FastAPI)
-- `google-generativeai` — Gemini 2.5 Flash (captions) + Nano Banana Pro (slides)
+- **Captions + slide-2 copy:** hardcoded in `data/trends.json` (v1 demo). LLM re-enablement is a v2 task — see "V2: LLM re-enablement" below.
+- **Slide rendering:** Jinja2 HTML templates + Playwright (headless Chromium) → 1080×1080 JPG
 - Instagram Graph API (Business/Creator account, long-lived token)
 - Deploy: Render (Docker), free tier
 
@@ -16,14 +17,22 @@ Telegram-driven Instagram carousel publisher for **Analytico Training Academy (A
 
 1. **Trend + 5 ideas are hardcoded** in `data/trends.json` for MVP. No live trend discovery.
 2. **2 slides per carousel** — hook + reveal. Fixed count.
-3. **Caption LLM:** Gemini 2.5 Flash. Not Claude, not GPT.
-4. **Image gen:** Nano Banana Pro (`gemini-3-pro-image`), 1:1 1K.
+3. **Caption source (v1):** pre-written in `trends.json` per idea. Zero LLM calls in the demo path.
+4. **Image gen (v1):** HTML + CSS via Jinja2 + Playwright. Pixel-perfect Analytico brand, deterministic, free. LLM image gen (Nano Banana Pro, Imagen, etc.) is paid-only — deferred to v2.
 5. **Image hosting:** same Render service at `GET /media/<post_id>/<n>.jpg`. No Cloudinary/S3 for MVP.
 6. **Schedule options:** Now / Tonight 7pm SGT / Tomorrow 9am SGT. Fixed three.
 7. **Auth:** `TELEGRAM_CHAT_IDS` allowlist. No public access.
 8. **No DB.** State in JSON files (`queue.json`, `posts_log.json`, `pending_edits.json`).
 9. **Edit scope:** caption only. Slides are not re-rolled on Edit.
-10. **ATA context** baked into `src/prompts.py` — single source of truth for brand voice.
+10. **Analytico brand context** baked into `src/prompts.py` — kept as the source of truth even though v1 doesn't call an LLM (v2 reuses it verbatim).
+
+## V2: LLM re-enablement (deferred)
+
+Two LLM call sites exist in earlier drafts and remain ready to re-enable. v1 swaps both for hardcoded reads from `data/trends.json` because Gemini 2.5 Flash free tier dropped to 20 req/day — too tight for a demo where one /start burns 5 requests. v2 plan:
+
+- **Caption regeneration:** `src/caption.py::generate_caption` swaps back to the Gemini SDK call, reusing `CAPTION_SYSTEM_INSTRUCTION` from `src/prompts.py`. Falls back to `trends.json` caption on any quota/timeout/parse error so the demo path never breaks.
+- **Slide-2 structuring:** `src/images.py::_structure_slide2` swaps back to Gemini, reusing the structurer prompt. Same fallback semantics.
+- **Trigger to re-enable:** either enable billing on the Google API key (caption cost ~$0.00015/call, trivial) OR move to a higher-quota model. Either way, just flip the function bodies; the public surface and `trends.json` schema don't change.
 
 ## Project structure
 

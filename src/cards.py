@@ -6,7 +6,7 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def load_trends() -> dict:
-    with open(os.path.join(_ROOT, "data", "trends.json")) as f:
+    with open(os.path.join(_ROOT, "data", "trends.json"), encoding="utf-8") as f:
         return json.load(f)
 
 

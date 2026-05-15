@@ -1,78 +1,45 @@
-"""Gemini 2.5 Flash caption generation for Analytico Training Academy carousel ideas.
+"""Caption provider — reads pre-written copy from data/trends.json.
 
-Uses the new google-genai SDK (the old google.generativeai package is deprecated).
-Returns {"caption": str, "hashtags": str}. Fails loud — caller decides whether
-to fall back to a placeholder so the Telegram card flow still works.
+For MVP / demo: deterministic. Every idea ships with a hand-edited caption +
+hashtags string. Zero LLM calls, zero quota risk, zero API outage risk during
+the live demo. The brand voice is locked at the data layer.
+
+V2 plan (see CLAUDE.md): re-enable Gemini 2.5 Flash generation with the
+ANALYTICO_BRAND_CONTEXT prompt from src/prompts.py, falling back to the
+pre-written copy on quota error. The public signature here is intentionally
+identical to the LLM version so the swap is a one-file change.
 """
-import json
-import os
-import re
-
-from google import genai
-from google.genai import types
-
-from src.prompts import CAPTION_SYSTEM_INSTRUCTION, build_caption_prompt
-
-_MODEL_NAME = os.getenv("GEMINI_CAPTION_MODEL", "gemini-2.5-flash")
-_client: genai.Client | None = None
+from src import cards
 
 
-def _get_client() -> genai.Client:
-    global _client
-    if _client is not None:
-        return _client
-    key = os.getenv("GOOGLE_API_KEY")
-    if not key:
-        raise RuntimeError("GOOGLE_API_KEY not set in environment")
-    _client = genai.Client(api_key=key)
-    return _client
+class _MissingIdea(Exception):
+    pass
 
 
-def _strip_json_fence(text: str) -> str:
-    text = text.strip()
-    fence = re.match(r"^```(?:json)?\s*(.+?)\s*```$", text, re.DOTALL)
-    if fence:
-        return fence.group(1).strip()
-    return text
+def _find_idea(idea: dict) -> dict:
+    """Look up the full idea record from trends.json (which has the caption fields)."""
+    trends = cards.load_trends()
+    for stored in trends["ideas"]:
+        if stored["id"] == idea["id"]:
+            return stored
+    raise _MissingIdea(f"idea_id {idea.get('id')} not in trends.json")
 
 
 def generate_caption(idea: dict) -> dict:
     """Return {'caption': str, 'hashtags': str} for one idea.
 
-    Raises RuntimeError on Gemini API failure or malformed response.
+    Reads pre-written content from data/trends.json. Drop-in compatible with the
+    earlier LLM version — same return shape, same caller expectations.
     """
-    client = _get_client()
-    config = types.GenerateContentConfig(
-        system_instruction=CAPTION_SYSTEM_INSTRUCTION,
-        temperature=0.85,
-        top_p=0.95,
-        max_output_tokens=2048,
-        response_mime_type="application/json",
-    )
-    prompt = build_caption_prompt(idea)
-    resp = client.models.generate_content(
-        model=_MODEL_NAME,
-        contents=prompt,
-        config=config,
-    )
-    raw = (resp.text or "").strip()
-    if not raw:
-        raise RuntimeError(f"empty Gemini response for idea {idea.get('id')}")
-    cleaned = _strip_json_fence(raw)
-    try:
-        data = json.loads(cleaned)
-    except json.JSONDecodeError as e:
-        raise RuntimeError(f"Gemini returned non-JSON for {idea.get('id')}: {cleaned[:200]}") from e
-
-    caption = (data.get("caption") or "").strip()
-    hashtags = (data.get("hashtags") or "").strip()
-    if not caption:
-        raise RuntimeError(f"Gemini response missing 'caption' for {idea.get('id')}")
-    return {"caption": caption, "hashtags": hashtags}
+    stored = _find_idea(idea)
+    return {
+        "caption": (stored.get("caption") or "").strip(),
+        "hashtags": (stored.get("hashtags") or "").strip(),
+    }
 
 
 def compose_ig_caption(parts: dict) -> str:
-    """Combine caption + hashtags for the actual IG post (within 2200 chars)."""
+    """Combine caption + hashtags for the IG post (clipped at 2200 chars, IG's max)."""
     caption = parts.get("caption", "").strip()
     hashtags = parts.get("hashtags", "").strip()
     if hashtags:
