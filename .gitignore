@@ -10,3 +10,4 @@ pending_edits.json
 sent_log.json
 *.log
 .DS_Store
+docs/SETUP_STATE.md

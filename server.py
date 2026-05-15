@@ -15,11 +15,14 @@ import json
 import os
 import secrets
 import time
+from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import requests
 
 from src import cards, schedule, state
+from src.caption import generate_caption
+from src.publisher import PublishError, publish_carousel
 
 
 def _load_dotenv():
@@ -60,9 +63,13 @@ def _is_allowed(chat_id: str) -> bool:
     return chat_id in TELEGRAM_CHAT_IDS
 
 
-def _send_idea_card(chat_id: str, idea: dict) -> None:
-    """Send one idea card with action buttons. Caption is None for now (Phase 3 wires Gemini)."""
-    text = cards.build_card_text(idea, caption=None)
+def _send_idea_card(chat_id: str, idea: dict, caption_parts: dict | None) -> None:
+    """Send one idea card with action buttons.
+
+    caption_parts is {'caption': str, 'hashtags': str} from Gemini, or None on failure.
+    """
+    caption_text = caption_parts["caption"] if caption_parts else None
+    text = cards.build_card_text(idea, caption=caption_text)
     resp = _tg("sendMessage", {
         "chat_id": chat_id,
         "text": text,
@@ -77,7 +84,8 @@ def _send_idea_card(chat_id: str, idea: dict) -> None:
     })
     state.set_draft(message_id, {
         "idea_id": idea["id"],
-        "caption": None,
+        "caption": caption_text,
+        "hashtags": caption_parts.get("hashtags") if caption_parts else None,
         "chat_id": chat_id,
     })
 
@@ -90,16 +98,30 @@ def _fire_all_ideas(chat_id: str) -> None:
         "text": (
             f"🔥 *Trend:* {trend['name']}\n"
             f"_{trend['description']}_\n\n"
-            f"Generating 5 idea cards for ATA…"
+            f"Generating 5 ATA-tailored captions in parallel…"
         ),
         "parse_mode": "Markdown",
     })
-    for i, idea in enumerate(trends["ideas"]):
+
+    # Generate all 5 captions in parallel so /start feels fast.
+    ideas = trends["ideas"]
+    captions: dict[str, dict | None] = {}
+    with ThreadPoolExecutor(max_workers=5) as pool:
+        futures = {pool.submit(generate_caption, idea): idea["id"] for idea in ideas}
+        for fut in futures:
+            idea_id = futures[fut]
+            try:
+                captions[idea_id] = fut.result(timeout=30)
+            except Exception as e:
+                print(f"[caption {idea_id}] failed: {e}")
+                captions[idea_id] = None
+
+    for i, idea in enumerate(ideas):
         try:
-            _send_idea_card(chat_id, idea)
+            _send_idea_card(chat_id, idea, captions.get(idea["id"]))
         except Exception as e:
             print(f"[card {idea['id']}] send failed: {e}")
-        if i < len(trends["ideas"]) - 1:
+        if i < len(ideas) - 1:
             time.sleep(1)
 
 
@@ -191,6 +213,52 @@ def _handle_edit_tap(chat_id: str, idea_id: str, message_id: str) -> None:
     })
 
 
+def _handle_test_publish(chat_id: str) -> None:
+    """Smoke-test the IG round-trip with 2 public sample JPGs.
+
+    Proves: Telegram -> server -> IG Graph API -> live carousel post on aira.trendcast.
+    Uses picsum.photos (no auth, returns a JPG, square crop) as the image source so
+    we can prove the publisher works before wiring Nano Banana Pro.
+    """
+    _tg("sendMessage", {
+        "chat_id": chat_id,
+        "text": "🧪 *Test publish* — sending 2 placeholder slides to aira.trendcast…",
+        "parse_mode": "Markdown",
+    })
+    # picsum.photos auto-redirects to a real JPG; stable IDs keep the same image each call.
+    test_urls = [
+        "https://picsum.photos/id/237/1080/1080.jpg",  # slide 1 (dog)
+        "https://picsum.photos/id/1015/1080/1080.jpg",  # slide 2 (mountain)
+    ]
+    caption = (
+        "🧪 AIRA Social Media Agent — end-to-end publish test.\n\n"
+        "If you can see this on @aira.trendcast, the Telegram → Graph API pipeline works.\n\n"
+        "#test #ignore"
+    )
+    try:
+        result = publish_carousel(test_urls, caption)
+        _tg("sendMessage", {
+            "chat_id": chat_id,
+            "text": (
+                f"✅ *Published.*\n"
+                f"`media_id={result['media_id']}`\n"
+                f"🔗 {result['permalink']}"
+            ),
+            "parse_mode": "Markdown",
+        })
+    except PublishError as e:
+        _tg("sendMessage", {
+            "chat_id": chat_id,
+            "text": f"❌ *Publish failed:*\n```\n{str(e)[:1500]}\n```",
+            "parse_mode": "Markdown",
+        })
+    except Exception as e:
+        _tg("sendMessage", {
+            "chat_id": chat_id,
+            "text": f"❌ Unexpected error: {e}",
+        })
+
+
 def _handle_dismiss_tap(chat_id: str, message_id: str) -> None:
     try:
         _tg("deleteMessage", {"chat_id": chat_id, "message_id": int(message_id)})
@@ -274,6 +342,8 @@ def _handle_message(msg: dict) -> None:
             "chat_id": chat_id,
             "text": f"📊 Queue: {len(q)} pending\n✅ Posted: {len(posted)}",
         })
+    elif lower in ("/test_publish", "test_publish"):
+        _handle_test_publish(chat_id)
     elif lower in ("/help", "help"):
         _tg("sendMessage", {
             "chat_id": chat_id,
@@ -281,6 +351,7 @@ def _handle_message(msg: dict) -> None:
                 "Commands:\n"
                 "/start — fire 5 idea cards\n"
                 "/status — queue + posted counts\n"
+                "/test_publish — IG smoke test (2 placeholder slides)\n"
                 "/help — this message"
             ),
         })
