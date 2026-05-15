@@ -188,12 +188,16 @@ def _handle_schedule_choice(chat_id: str, idea_id: str, message_id: str, slot_ke
     except Exception:
         pass
 
+    # Resolve idea title for the confirmation message (post_id stays hidden — internal only).
+    trends = cards.load_trends()
+    idea_obj = next((i for i in trends["ideas"] if i["id"] == idea_id), None)
+    idea_title = idea_obj["title"] if idea_obj else idea_id
+
     _tg("sendMessage", {
         "chat_id": chat_id,
         "text": (
-            f"📅 *Queued* `{post_id}`\n"
-            f"🕐 Fires at: {schedule.format_sgt(fire_at)}\n"
-            f"💡 Idea: {idea_id}\n\n"
+            f"📅 *Queued: {idea_title}*\n"
+            f"🕐 Fires at: {schedule.format_sgt(fire_at)}\n\n"
             f"_The scheduler will render slides + publish to Instagram automatically._"
         ),
         "parse_mode": "Markdown",

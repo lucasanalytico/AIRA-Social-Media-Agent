@@ -63,10 +63,12 @@ def _dispatch(entry: dict, send_telegram: Callable[[str, dict], dict]) -> None:
     if idea is None:
         raise PublishError(f"idea_id {idea_id} not found in trends.json")
 
-    # 1. Render slides (~15-20s).
+    idea_title = idea.get("title") or idea_id
+
+    # 1. Render slides (~10-15s).
     send_telegram("sendMessage", {
         "chat_id": chat_id,
-        "text": f"🎨 Rendering slides for `{post_id}`…",
+        "text": f"🎨 Rendering slides for *{idea_title}*…",
         "parse_mode": "Markdown",
     })
     generate_slides(idea, post_id)
@@ -77,13 +79,13 @@ def _dispatch(entry: dict, send_telegram: Callable[[str, dict], dict]) -> None:
     hashtags = (entry.get("hashtags") or "").strip()
     ig_caption = compose_ig_caption({"caption": caption_text, "hashtags": hashtags})
     if not ig_caption:
-        # Idea has no Gemini caption (edge case if Gemini failed at /start).
+        # Defensive: queue entry had no caption (edge case if /start failed mid-way).
         ig_caption = f"{idea['slide1_hook']} — Analytico Training Academy.\n\n{idea['cta']}"
 
     # 3. Publish to IG (~8-15s for container creation + status poll).
     send_telegram("sendMessage", {
         "chat_id": chat_id,
-        "text": f"📤 Publishing carousel for `{post_id}` to Instagram…",
+        "text": f"📤 Publishing *{idea_title}* to Instagram…",
         "parse_mode": "Markdown",
     })
     result = publish_carousel(image_urls, ig_caption)
@@ -93,12 +95,13 @@ def _dispatch(entry: dict, send_telegram: Callable[[str, dict], dict]) -> None:
         "ig_media_id": result["media_id"],
         "ig_permalink": result["permalink"],
         "idea_id": idea_id,
+        "idea_title": idea_title,
         "posted_at_utc": _now_utc().isoformat(),
     })
     send_telegram("sendMessage", {
         "chat_id": chat_id,
         "text": (
-            f"✅ *Posted* `{post_id}`\n"
+            f"✅ *Posted: {idea_title}*\n"
             f"🔗 {result['permalink']}"
         ),
         "parse_mode": "Markdown",
@@ -123,6 +126,8 @@ def _drain_due(send_telegram: Callable[[str, dict], dict]) -> None:
     state.queue_replace(remaining)
 
     for entry in due:
+        idea = _load_idea(entry.get("idea_id", "")) or {}
+        label = idea.get("title") or entry.get("idea_id") or entry.get("post_id")
         try:
             _dispatch(entry, send_telegram)
         except PublishError as e:
@@ -131,7 +136,7 @@ def _drain_due(send_telegram: Callable[[str, dict], dict]) -> None:
                 send_telegram("sendMessage", {
                     "chat_id": entry["chat_id"],
                     "text": (
-                        f"❌ *Publish failed* `{entry.get('post_id')}`\n"
+                        f"❌ *Publish failed: {label}*\n"
                         f"```\n{str(e)[:1500]}\n```"
                     ),
                     "parse_mode": "Markdown",
@@ -144,7 +149,7 @@ def _drain_due(send_telegram: Callable[[str, dict], dict]) -> None:
             try:
                 send_telegram("sendMessage", {
                     "chat_id": entry["chat_id"],
-                    "text": f"❌ Unexpected error firing `{entry.get('post_id')}`: {e}",
+                    "text": f"❌ Unexpected error firing *{label}*: {e}",
                     "parse_mode": "Markdown",
                 })
             except Exception:
