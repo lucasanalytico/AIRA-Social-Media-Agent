@@ -16,19 +16,18 @@
       "slide2_reveal": "Singapore tech salary statistics — entry, mid, senior tier breakdowns",
       "course_angle": "Data Analytics / Software Engineering Immersive",
       "cta": "Comment 'SALARY' for the full Singapore tech pay report.",
-      "caption": "Curious what a career switch into tech actually pays in Singapore? 💼\n\nMost career changers we meet have a number in their head — and it's usually outdated. Real outcomes from General Assembly's Singapore alumni paint a clearer picture across entry, mid, and senior roles.\n\nNumbers anchor everything: the courses to pick, how aggressively to switch, and what 'success' looks like 12 months in. Worth knowing before the curriculum, not after.\n\nComment 'SALARY' for the full Singapore tech pay report.",
+      "caption": "Curious what a career switch into tech actually pays in Singapore? 💼\n\nNodeFlair's 2026 Singapore tech salary data shows junior engineers earning ~S$4.8K/mo, mid-career S$7K+, and AI-fluent engineers commanding 18-25% pay premiums across every tier.\n\nThe numbers anchor everything: courses to pick, how aggressively to switch, what 'success' looks like 12 months in. Worth knowing before the curriculum, not after.\n\nComment 'SALARY' for the full Singapore tech pay breakdown.",
       "hashtags": "#sgcareer #techsg #careertransition #upskillingsg #dataanalyticssg #softwareengineeringsg #generalassemblysg #analyticotrainingacademy",
       "source": {
-        "label": "MOM Tech Salary Report 2024",
-        "url": "https://www.mom.gov.sg/statistics-publications/research/sg-tech-salaries-2024",
-        "_placeholder": true
+        "label": "Vulcan Post — Singapore tech salaries 2026 (NodeFlair data)",
+        "url": "https://vulcanpost.com/911031/nodeflair-2026-singapore-tech-salaries/"
       },
       "slide2": {
         "headline": "Real Singapore Tech Salaries",
         "stats": [
-          "Entry-level: <strong>S$4.5K–6K/mo</strong> typical (MOM data)",
-          "Mid-career: <strong>S$7K–10K/mo</strong> after 2–3 years",
-          "Senior IC roles: <strong>S$12K+/mo</strong> with leadership scope"
+          "Entry-level: <strong>S$4.8K–6K/mo</strong> (junior, AI-skilled premium)",
+          "Mid-level: <strong>S$7.1K–8K/mo</strong> at 3–5 years (NodeFlair)",
+          "Senior: <strong>S$8.5K–10K+/mo</strong>, AI fluency adds ~18%"
         ],
         "cta": "Comment 'SALARY' for the full report."
       }
@@ -40,19 +39,18 @@
       "slide2_reveal": "Soft skills + Technical proficiency + AI literacy",
       "course_angle": "AI Bootcamp / Data Analytics",
       "cta": "DM us 'SKILL' for our free skill-gap diagnostic.",
-      "caption": "Singapore tech recruiters keep saying the same thing — and it isn't 'more Python.' 🎯\n\nThe candidates getting hired in 2026 stack three things: communication that lands, technical depth in one stack, and working fluency with AI tools. Each one alone gets you screened. All three gets you offered.\n\nIf you're upskilling and only counting tech courses, you're optimising the wrong axis.\n\nDM us 'SKILL' for our free skill-gap diagnostic.",
+      "caption": "Singapore tech recruiters keep saying the same thing — and it isn't 'more Python.' 🎯\n\nPer HRM Asia, AI literacy is the hardest-to-find skill (25% of employers struggle to find it) but 34% still cite adaptability and work ethic as the top soft-skill differentiators. The candidates getting hired in 2026 stack both: technical depth + AI fluency + the human stuff.\n\nIf you're upskilling on tech alone, you're optimising the wrong axis.\n\nDM us 'SKILL' for our free skill-gap diagnostic.",
       "hashtags": "#sgcareer #techsg #aiskills #upskillingsg #careergrowth #softskills #generalassemblysg #analyticotrainingacademy #sgtech",
       "source": {
-        "label": "Tech in Asia — Singapore Hiring Pulse Q1 2026",
-        "url": "https://www.techinasia.com/news/sg-hiring-pulse-q1-2026",
-        "_placeholder": true
+        "label": "HRM Asia — AI literacy is Singapore's hardest-to-find skill",
+        "url": "https://hrmasia.com/ai-skills-emerge-as-singapores-hardest-to-find-talent-gap/"
       },
       "slide2": {
         "headline": "The Hiring Trifecta",
         "stats": [
-          "<strong>Soft skills</strong>: clear writing, stakeholder communication",
-          "<strong>Technical depth</strong>: one stack, deeply",
-          "<strong>AI literacy</strong>: daily use, not just awareness"
+          "<strong>AI literacy</strong>: 25% of SG employers can't find it",
+          "<strong>Soft skills</strong>: 34% rank adaptability + work ethic top",
+          "<strong>Engineering depth</strong>: 24% report unfilled roles"
         ],
         "cta": "DM 'SKILL' for the free diagnostic."
       }
@@ -64,19 +62,18 @@
       "slide2_reveal": "A complex full-stack app built by a Software Engineering Immersive student",
       "course_angle": "Software Engineering Immersive",
       "cta": "Tap the link in bio to see the project demo + apply.",
-      "caption": "12 weeks. Zero coding background. Full-stack production app. 🚀\n\nThe Software Engineering Immersive isn't a tutorial dump — it's a structured route from 'I open the terminal nervously' to shipping real apps with auth, database, deploy, the works.\n\nNot every student ships something this polished. But the ones who put the hours in consistently surprise themselves — and recruiters.\n\nTap the link in bio to see the project demo and apply.",
+      "caption": "12 weeks. Zero coding background. Four full-stack production apps. 🚀\n\nGeneral Assembly's Singapore Software Engineering Immersive isn't a tutorial dump — it's a structured route from 'I open the terminal nervously' to shipping real apps with auth, database, deploy, the works. The 2021 outcomes report cited 95.7% job placement for grads who used career services.\n\nNot every student ships something this polished. But the ones who put the hours in consistently surprise themselves — and recruiters.\n\nTap the link in bio to see the project demo and apply.",
       "hashtags": "#sgcareer #softwareengineeringsg #fullstackdev #careerchange #generalassemblysg #codingbootcamp #techsg #analyticotrainingacademy #sgjobs",
       "source": {
-        "label": "General Assembly Singapore Outcomes Report",
-        "url": "https://generalassemb.ly/student-outcomes/singapore",
-        "_placeholder": true
+        "label": "General Assembly — Singapore Software Engineering Bootcamp",
+        "url": "https://generalassemb.ly/students/courses/software-engineering-bootcamp/singapore"
       },
       "slide2": {
         "headline": "From Zero to Full-Stack in 12 Weeks",
         "stats": [
-          "<strong>Frontend</strong>: React, TypeScript, responsive design",
-          "<strong>Backend</strong>: Node, Express, authenticated APIs",
-          "<strong>Deploy</strong>: Postgres, CI/CD, live production URL"
+          "<strong>4 portfolio projects</strong>: shipped in 12 weeks",
+          "<strong>Full-stack</strong>: React, Node, Postgres, auth, deploy",
+          "<strong>95.7% placement</strong>: 2021 GA outcomes (career-services users)"
         ],
         "cta": "Link in bio for the demo + application."
       }
@@ -88,18 +85,17 @@
       "slide2_reveal": "Three actionable steps you can take this week — no degree required",
       "course_angle": "Software Engineering Immersive / Career Pivot",
       "cta": "Save this post + DM 'PIVOT' for our career-change roadmap.",
-      "caption": "You don't need a CS degree. You need three weeks of deliberate practice and one honest conversation with someone who's already pivoted. 🛠️\n\nOur senior instructors keep giving career changers the same starting advice — and it isn't 'sign up.' It's about stripping the false signals out of the journey and getting clarity on what actually moves the needle in your first 90 days.\n\nThe candidates who pivot fastest treat the first three weeks like a job, not a course.\n\nSave this post and DM 'PIVOT' for our career-change roadmap.",
+      "caption": "You don't need a CS degree. You need three weeks of deliberate practice and one honest conversation with someone who's already pivoted. 🛠️\n\nSingapore's GovTech Career Kaki tool surfaces a consistent pattern across mid-career switchers: the candidates who pivot fastest treat the first three weeks like a job, not a course. One stack, one project, shipped publicly.\n\nSave this post + DM 'PIVOT' for our career-change roadmap.",
       "hashtags": "#sgcareer #careerchange #careerpivot #upskillingsg #generalassemblysg #softwareengineeringsg #analyticotrainingacademy #techsg",
       "source": {
-        "label": "Stack Overflow Developer Survey — APAC Pivot Insights",
-        "url": "https://stackoverflow.blog/2025/12/apac-developer-pivot-insights/",
-        "_placeholder": true
+        "label": "GovTech — Career Kaki (mid-career switch in Singapore)",
+        "url": "https://www.tech.gov.sg/technews/considering-a-mid-career-switch-in-singapore-meet-career-kaki/"
       },
       "slide2": {
         "headline": "Three Steps to Pivot Now",
         "stats": [
           "<strong>Week 1</strong>: one stack, one course, one project",
-          "<strong>Week 2</strong>: ship publicly, even if rough",
+          "<strong>Week 2</strong>: ship publicly — even rough beats unfinished",
           "<strong>Week 3</strong>: book 3 coffee chats with practitioners"
         ],
         "cta": "Save + DM 'PIVOT' for the roadmap."
@@ -112,19 +108,18 @@
       "slide2_reveal": "Details for the next Analytico Training Academy free AI workshop",
       "course_angle": "AI Bootcamp (lead-gen workshop)",
       "cta": "Register via the link in bio — limited seats.",
-      "caption": "Two hours. Zero cost. One framework for working with LLMs that you can apply Monday morning. 🤖\n\nThe next free AI workshop from Analytico Training Academy covers the practical workflow used by teams shipping LLM features in production — prompt patterns, retrieval, evaluation. Built for working professionals who want hands-on, not slideware.\n\nSeats are capped to keep the hands-on portion useful, not chaotic.\n\nRegister via the link in bio — limited seats.",
+      "caption": "Two hours. Zero cost. One framework for working with LLMs you can apply Monday morning. 🤖\n\nAnalytico Training Academy's next free AI workshop covers the practical workflow used by teams shipping LLM features in production — prompt patterns, retrieval, evaluation. Aligned with AI Singapore's national practitioner-first approach.\n\nBuilt for working professionals who want hands-on, not slideware. Seats are capped to keep the hands-on portion useful, not chaotic.\n\nRegister via the link in bio — limited seats.",
       "hashtags": "#sgcareer #aiworkshop #aiskills #aibootcamp #techsg #upskillingsg #generalassemblysg #analyticotrainingacademy #freeworkshop",
       "source": {
-        "label": "Analytico Training Academy — Workshop Calendar",
-        "url": "https://analytico.sg/workshops",
-        "_placeholder": true
+        "label": "AI Singapore — National AI talent development programmes",
+        "url": "https://learn.aisingapore.org/"
       },
       "slide2": {
         "headline": "Free Hands-On AI Workshop",
         "stats": [
           "<strong>Format</strong>: 2 hours, live in Singapore",
           "<strong>Content</strong>: LLM workflow, prompts, retrieval, evals",
-          "<strong>Audience</strong>: working professionals, no AI background needed"
+          "<strong>Aligned with</strong>: AI Singapore's practitioner-first ethos"
         ],
         "cta": "Register via the link in bio."
       }
