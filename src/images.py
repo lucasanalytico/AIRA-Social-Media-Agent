@@ -103,33 +103,47 @@ def _html_to_jpg(html: str, out_path: Path) -> None:
     img.save(out_path, format="JPEG", quality=92, optimize=True)
 
 
-def generate_slides(idea: dict, post_id: str, trends_meta: dict | None = None) -> list[Path]:
-    """Render 2 branded slide JPGs for one idea.
+def generate_slide1(idea: dict, post_id: str, trends_meta: dict | None = None) -> Path:
+    """Render the hook (slide 1) only — used by /start so cards can show a preview.
 
-    trends_meta: optional dict with 'name' for the small top-bar trend label.
-                 Defaults to 'SWIPE TO REVEAL'.
+    Skips re-rendering if the JPG already exists. The scheduler reuses the file
+    when it fires the post, so the slide is only built once per idea per session.
     """
-    root = _MEDIA_DIR / post_id
+    out_path = _MEDIA_DIR / post_id / "1.jpg"
+    if out_path.exists() and out_path.stat().st_size > 0:
+        return out_path
     trend_name = (trends_meta or {}).get("name", "Swipe to Reveal").upper()
-
     hook_text = _TRAILING_PUNCT.sub("", idea["slide1_hook"])
-    slide1_html = _render_slide_html("slide1_hook.html.j2", {
+    html = _render_slide_html("slide1_hook.html.j2", {
         "hook_text": hook_text,
         "trend_name": trend_name,
     })
+    _html_to_jpg(html, out_path)
+    return out_path
 
+
+def generate_slide2(idea: dict, post_id: str) -> Path:
+    """Render the reveal (slide 2). Skips if already on disk."""
+    out_path = _MEDIA_DIR / post_id / "2.jpg"
+    if out_path.exists() and out_path.stat().st_size > 0:
+        return out_path
     structured = _structure_slide2(idea)
-    slide2_html = _render_slide_html("slide2_reveal.html.j2", {
+    html = _render_slide_html("slide2_reveal.html.j2", {
         "reveal_headline": structured["headline"],
         "stats": structured["stats"],
         "cta": structured["cta"],
     })
+    _html_to_jpg(html, out_path)
+    return out_path
 
-    slide1_path = root / "1.jpg"
-    slide2_path = root / "2.jpg"
-    _html_to_jpg(slide1_html, slide1_path)
-    _html_to_jpg(slide2_html, slide2_path)
-    return [slide1_path, slide2_path]
+
+def generate_slides(idea: dict, post_id: str, trends_meta: dict | None = None) -> list[Path]:
+    """Render both slides for one idea. Slide 1 may already exist from /start;
+    in that case it's reused (no re-render). Slide 2 is rendered fresh."""
+    return [
+        generate_slide1(idea, post_id, trends_meta=trends_meta),
+        generate_slide2(idea, post_id),
+    ]
 
 
 def public_urls_for(post_id: str, base_url: str) -> list[str]:

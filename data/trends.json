@@ -18,6 +18,11 @@
       "cta": "Comment 'SALARY' for the full Singapore tech pay report.",
       "caption": "Curious what a career switch into tech actually pays in Singapore? 💼\n\nMost career changers we meet have a number in their head — and it's usually outdated. Real outcomes from General Assembly's Singapore alumni paint a clearer picture across entry, mid, and senior roles.\n\nNumbers anchor everything: the courses to pick, how aggressively to switch, and what 'success' looks like 12 months in. Worth knowing before the curriculum, not after.\n\nComment 'SALARY' for the full Singapore tech pay report.",
       "hashtags": "#sgcareer #techsg #careertransition #upskillingsg #dataanalyticssg #softwareengineeringsg #generalassemblysg #analyticotrainingacademy",
+      "source": {
+        "label": "MOM Tech Salary Report 2024",
+        "url": "https://www.mom.gov.sg/statistics-publications/research/sg-tech-salaries-2024",
+        "_placeholder": true
+      },
       "slide2": {
         "headline": "Real Singapore Tech Salaries",
         "stats": [
@@ -37,6 +42,11 @@
       "cta": "DM us 'SKILL' for our free skill-gap diagnostic.",
       "caption": "Singapore tech recruiters keep saying the same thing — and it isn't 'more Python.' 🎯\n\nThe candidates getting hired in 2026 stack three things: communication that lands, technical depth in one stack, and working fluency with AI tools. Each one alone gets you screened. All three gets you offered.\n\nIf you're upskilling and only counting tech courses, you're optimising the wrong axis.\n\nDM us 'SKILL' for our free skill-gap diagnostic.",
       "hashtags": "#sgcareer #techsg #aiskills #upskillingsg #careergrowth #softskills #generalassemblysg #analyticotrainingacademy #sgtech",
+      "source": {
+        "label": "Tech in Asia — Singapore Hiring Pulse Q1 2026",
+        "url": "https://www.techinasia.com/news/sg-hiring-pulse-q1-2026",
+        "_placeholder": true
+      },
       "slide2": {
         "headline": "The Hiring Trifecta",
         "stats": [
@@ -56,6 +66,11 @@
       "cta": "Tap the link in bio to see the project demo + apply.",
       "caption": "12 weeks. Zero coding background. Full-stack production app. 🚀\n\nThe Software Engineering Immersive isn't a tutorial dump — it's a structured route from 'I open the terminal nervously' to shipping real apps with auth, database, deploy, the works.\n\nNot every student ships something this polished. But the ones who put the hours in consistently surprise themselves — and recruiters.\n\nTap the link in bio to see the project demo and apply.",
       "hashtags": "#sgcareer #softwareengineeringsg #fullstackdev #careerchange #generalassemblysg #codingbootcamp #techsg #analyticotrainingacademy #sgjobs",
+      "source": {
+        "label": "General Assembly Singapore Outcomes Report",
+        "url": "https://generalassemb.ly/student-outcomes/singapore",
+        "_placeholder": true
+      },
       "slide2": {
         "headline": "From Zero to Full-Stack in 12 Weeks",
         "stats": [
@@ -75,6 +90,11 @@
       "cta": "Save this post + DM 'PIVOT' for our career-change roadmap.",
       "caption": "You don't need a CS degree. You need three weeks of deliberate practice and one honest conversation with someone who's already pivoted. 🛠️\n\nOur senior instructors keep giving career changers the same starting advice — and it isn't 'sign up.' It's about stripping the false signals out of the journey and getting clarity on what actually moves the needle in your first 90 days.\n\nThe candidates who pivot fastest treat the first three weeks like a job, not a course.\n\nSave this post and DM 'PIVOT' for our career-change roadmap.",
       "hashtags": "#sgcareer #careerchange #careerpivot #upskillingsg #generalassemblysg #softwareengineeringsg #analyticotrainingacademy #techsg",
+      "source": {
+        "label": "Stack Overflow Developer Survey — APAC Pivot Insights",
+        "url": "https://stackoverflow.blog/2025/12/apac-developer-pivot-insights/",
+        "_placeholder": true
+      },
       "slide2": {
         "headline": "Three Steps to Pivot Now",
         "stats": [
@@ -94,6 +114,11 @@
       "cta": "Register via the link in bio — limited seats.",
       "caption": "Two hours. Zero cost. One framework for working with LLMs that you can apply Monday morning. 🤖\n\nThe next free AI workshop from Analytico Training Academy covers the practical workflow used by teams shipping LLM features in production — prompt patterns, retrieval, evaluation. Built for working professionals who want hands-on, not slideware.\n\nSeats are capped to keep the hands-on portion useful, not chaotic.\n\nRegister via the link in bio — limited seats.",
       "hashtags": "#sgcareer #aiworkshop #aiskills #aibootcamp #techsg #upskillingsg #generalassemblysg #analyticotrainingacademy #freeworkshop",
+      "source": {
+        "label": "Analytico Training Academy — Workshop Calendar",
+        "url": "https://analytico.sg/workshops",
+        "_placeholder": true
+      },
       "slide2": {
         "headline": "Free Hands-On AI Workshop",
         "stats": [

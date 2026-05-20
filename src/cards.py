@@ -10,8 +10,18 @@ def load_trends() -> dict:
         return json.load(f)
 
 
-def build_card_text(idea: dict, caption: str | None = None) -> str:
-    """Card body shown in Telegram before Post/Edit/Dismiss decision."""
+def build_card_text(
+    idea: dict,
+    caption: str | None = None,
+    source: dict | None = None,
+) -> str:
+    """Card body shown in Telegram before Post/Edit/Dismiss decision.
+
+    `source` is the optional per-idea {label, url, _placeholder?} block from
+    data/trends.json. When present, a final 'Inspired by: <label>' line is
+    appended as a Markdown link. `_placeholder=True` adds a discreet
+    ⚠️ marker so the operator knows the URL is a stand-in until replaced.
+    """
     lines = [
         f"💡 *{idea['title']}*",
         "",
@@ -21,6 +31,11 @@ def build_card_text(idea: dict, caption: str | None = None) -> str:
     ]
     if caption:
         lines += ["", "✍️ *Draft caption:*", caption]
+    if source and source.get("url"):
+        label = (source.get("label") or "source").strip()[:80]
+        url = source["url"].strip()
+        marker = " ⚠️" if source.get("_placeholder") else ""
+        lines += ["", f"🔗 *Inspired by:* [{label}]({url}){marker}"]
     return "\n".join(lines)
 
 

@@ -25,6 +25,7 @@ import requests
 
 from src import cards, schedule, state
 from src.caption import generate_caption
+from src.images import generate_slide1
 from src.publisher import PublishError, publish_carousel
 from src.scheduler import start_scheduler
 
@@ -63,22 +64,70 @@ def _tg(endpoint: str, payload: dict) -> dict:
     return resp.json()
 
 
+def _tg_send_photo(chat_id: str, photo_path: str, caption: str, parse_mode: str = "Markdown") -> dict:
+    """sendPhoto with a local file as multipart upload.
+
+    Returns the parsed Telegram response. Raises on HTTP error so callers can
+    fall back to a text-only sendMessage.
+    """
+    with open(photo_path, "rb") as f:
+        resp = requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto",
+            data={
+                "chat_id": chat_id,
+                "caption": caption,
+                "parse_mode": parse_mode,
+            },
+            files={"photo": (os.path.basename(photo_path), f, "image/jpeg")},
+            timeout=30,
+        )
+    resp.raise_for_status()
+    return resp.json()
+
+
 def _is_allowed(chat_id: str) -> bool:
     return chat_id in TELEGRAM_CHAT_IDS
 
 
-def _send_idea_card(chat_id: str, idea: dict, caption_parts: dict | None) -> None:
+def _send_idea_card(
+    chat_id: str,
+    idea: dict,
+    caption_parts: dict | None,
+    slide1_path: str | None = None,
+    post_id: str | None = None,
+) -> None:
     """Send one idea card with action buttons.
 
     caption_parts is {'caption': str, 'hashtags': str} from Gemini, or None on failure.
+    slide1_path is a local JPG path. When present, the card is sent as a sendPhoto
+    so the operator can see the rendered hook before tapping Post. Falls back to
+    text-only sendMessage on any render/upload failure so a single bad slide
+    doesn't drop the whole card.
+    post_id is pre-allocated at /start time so the slide-1 JPG is already keyed
+    by it; the same id flows through to the schedule entry — no rename later.
     """
     caption_text = caption_parts["caption"] if caption_parts else None
-    text = cards.build_card_text(idea, caption=caption_text)
-    resp = _tg("sendMessage", {
-        "chat_id": chat_id,
-        "text": text,
-        "parse_mode": "Markdown",
-    })
+    text = cards.build_card_text(idea, caption=caption_text, source=idea.get("source"))
+    has_photo = False
+
+    if slide1_path and os.path.exists(slide1_path):
+        try:
+            resp = _tg_send_photo(chat_id, slide1_path, caption=text)
+            has_photo = True
+        except Exception as e:
+            print(f"[card {idea['id']}] sendPhoto failed, falling back to text: {e}")
+            resp = _tg("sendMessage", {
+                "chat_id": chat_id,
+                "text": text,
+                "parse_mode": "Markdown",
+            })
+    else:
+        resp = _tg("sendMessage", {
+            "chat_id": chat_id,
+            "text": text,
+            "parse_mode": "Markdown",
+        })
+
     message_id = resp["result"]["message_id"]
     keyboard = cards.idea_action_keyboard(idea["id"], message_id)
     _tg("editMessageReplyMarkup", {
@@ -91,6 +140,8 @@ def _send_idea_card(chat_id: str, idea: dict, caption_parts: dict | None) -> Non
         "caption": caption_text,
         "hashtags": caption_parts.get("hashtags") if caption_parts else None,
         "chat_id": chat_id,
+        "has_photo": has_photo,
+        "post_id": post_id,
     })
 
 
@@ -102,27 +153,57 @@ def _fire_all_ideas(chat_id: str) -> None:
         "text": (
             f"🔥 *Trend:* {trend['name']}\n"
             f"_{trend['description']}_\n\n"
-            f"Generating 5 ATA-tailored captions in parallel…"
+            f"Generating 5 cards with previews…"
         ),
         "parse_mode": "Markdown",
     })
 
-    # Generate all 5 captions in parallel so /start feels fast.
     ideas = trends["ideas"]
+    # Stable post_id per idea — slides render under this path now, and the
+    # same id is reused when the operator taps Post -> schedule slot.
+    post_ids: dict[str, str] = {idea["id"]: secrets.token_hex(4) for idea in ideas}
+
+    # Captions: pre-written in trends.json today; this still works if generate_caption
+    # is swapped back to a live LLM call in v2.
     captions: dict[str, dict | None] = {}
-    with ThreadPoolExecutor(max_workers=5) as pool:
-        futures = {pool.submit(generate_caption, idea): idea["id"] for idea in ideas}
+    # Slide-1 JPGs rendered ahead of time so the operator sees the hook in Telegram.
+    slide1_paths: dict[str, str | None] = {}
+
+    def _render_one(idea: dict) -> tuple[str, str]:
+        """Worker: return (idea_id, path-as-str) — strings are picklable + path-safe."""
+        path = generate_slide1(idea, post_ids[idea["id"]], trends_meta=trend)
+        return idea["id"], str(path)
+
+    # Captions are cheap (pre-written); fire them sequentially, no pool needed.
+    for idea in ideas:
+        try:
+            captions[idea["id"]] = generate_caption(idea)
+        except Exception as e:
+            print(f"[caption {idea['id']}] failed: {e}")
+            captions[idea["id"]] = None
+
+    # Slide-1 renders are the expensive part (~3s each, Playwright launches a Chromium).
+    # max_workers=3 caps memory on Render's 512 MB free tier; 5 parallel Chromiums OOMs.
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {pool.submit(_render_one, idea): idea["id"] for idea in ideas}
         for fut in futures:
             idea_id = futures[fut]
             try:
-                captions[idea_id] = fut.result(timeout=30)
+                _, path = fut.result(timeout=60)
+                slide1_paths[idea_id] = path
             except Exception as e:
-                print(f"[caption {idea_id}] failed: {e}")
-                captions[idea_id] = None
+                print(f"[slide1 {idea_id}] failed: {e}")
+                slide1_paths[idea_id] = None
 
     for i, idea in enumerate(ideas):
         try:
-            _send_idea_card(chat_id, idea, captions.get(idea["id"]))
+            _send_idea_card(
+                chat_id,
+                idea,
+                captions.get(idea["id"]),
+                slide1_path=slide1_paths.get(idea["id"]),
+                post_id=post_ids[idea["id"]],
+            )
         except Exception as e:
             print(f"[card {idea['id']}] send failed: {e}")
         if i < len(ideas) - 1:
@@ -165,7 +246,10 @@ def _handle_schedule_choice(chat_id: str, idea_id: str, message_id: str, slot_ke
         return
 
     draft = state.get_draft(message_id) or {}
-    post_id = secrets.token_hex(4)
+    # Reuse the eager post_id allocated at /start so the slide-1 JPG already
+    # on disk under media/<post_id>/1.jpg flows through to the IG publish step
+    # without copy/rename. Fallback to a fresh id if draft is missing one.
+    post_id = draft.get("post_id") or secrets.token_hex(4)
     entry = {
         "post_id": post_id,
         "idea_id": idea_id,
@@ -324,17 +408,25 @@ def _handle_message(msg: dict) -> None:
         trends = cards.load_trends()
         idea = next((i for i in trends["ideas"] if i["id"] == idea_id), None)
         if idea:
-            new_text = cards.build_card_text(idea, caption=text)
+            new_text = cards.build_card_text(idea, caption=text, source=idea.get("source"))
+            # Photo cards (sendPhoto) require editMessageCaption, not editMessageText —
+            # Telegram returns 400 if you mix them.
+            draft = state.get_draft(message_id) or {}
+            method = "editMessageCaption" if draft.get("has_photo") else "editMessageText"
+            payload = {
+                "chat_id": chat_id,
+                "message_id": message_id,
+                "parse_mode": "Markdown",
+                "reply_markup": cards.idea_action_keyboard(idea_id, message_id),
+            }
+            if draft.get("has_photo"):
+                payload["caption"] = new_text
+            else:
+                payload["text"] = new_text
             try:
-                _tg("editMessageText", {
-                    "chat_id": chat_id,
-                    "message_id": message_id,
-                    "text": new_text,
-                    "parse_mode": "Markdown",
-                    "reply_markup": cards.idea_action_keyboard(idea_id, message_id),
-                })
+                _tg(method, payload)
             except Exception as e:
-                print(f"edit apply failed: {e}")
+                print(f"edit apply failed ({method}): {e}")
         _tg("sendMessage", {"chat_id": chat_id, "text": "✓ Caption updated."})
         return
 
