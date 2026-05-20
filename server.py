@@ -18,8 +18,29 @@ import secrets
 import time
 
 _SAFE_POST_ID = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+import threading
+from collections import deque
 from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler, HTTPServer
+
+# In-memory dedupe of Telegram update_ids. Telegram retries deliveries on cold
+# starts / >60s response times — without dedupe each retry would re-fire /start
+# and burn another batch of 5 slide renders + sendPhoto calls. 512 IDs is plenty
+# of headroom (Telegram caps retries at ~24h; even a chatty operator session
+# stays well under that).
+_SEEN_UPDATES: deque = deque(maxlen=512)
+_SEEN_LOCK = threading.Lock()
+
+
+def _already_seen(update_id: int | None) -> bool:
+    """True if we've processed this update_id before. Updates the recent-set as a side effect."""
+    if update_id is None:
+        return False
+    with _SEEN_LOCK:
+        if update_id in _SEEN_UPDATES:
+            return True
+        _SEEN_UPDATES.append(update_id)
+        return False
 
 import requests
 
@@ -513,15 +534,37 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/telegram/callback":
             length = int(self.headers.get("Content-Length", 0))
             raw = self.rfile.read(length)
+            update: dict = {}
             try:
                 update = json.loads(raw)
-                if "callback_query" in update:
-                    _handle_callback_query(update["callback_query"])
-                elif "message" in update:
-                    _handle_message(update["message"])
             except Exception as e:
-                print(f"update handling error: {e}")
+                print(f"webhook parse error: {e}")
+                self._send_json(200, {"ok": True})
+                return
+
+            # Always ack 200 immediately — work runs in a background thread so
+            # Telegram never times out waiting for slide rendering or IG calls.
+            # Without this, a cold-start /start (slide-1 renders take ~12s warm
+            # but the cold container can sit silent for 30-90s before Python
+            # boots) makes Telegram retry, which would fire /start again.
             self._send_json(200, {"ok": True})
+
+            update_id = update.get("update_id")
+            if _already_seen(update_id):
+                # Telegram retried a delivery we already processed. Silently drop.
+                print(f"dropped duplicate update_id={update_id}")
+                return
+
+            def _process():
+                try:
+                    if "callback_query" in update:
+                        _handle_callback_query(update["callback_query"])
+                    elif "message" in update:
+                        _handle_message(update["message"])
+                except Exception as e:
+                    print(f"update handling error (update_id={update_id}): {e}")
+
+            threading.Thread(target=_process, daemon=True).start()
         else:
             self._send_json(404, {"error": "not found"})
 
