@@ -74,13 +74,14 @@ def _dispatch(entry: dict, send_telegram: Callable[[str, dict], dict]) -> None:
     generate_slides(idea, post_id)
     image_urls = public_urls_for(post_id, base_url)
 
-    # 2. Build caption (use the draft caption from the queue entry; fall back to hashtags).
+    # 2. Build caption (draft from queue entry; fall back to trends.json pre-written copy).
     caption_text = (entry.get("caption") or "").strip()
     hashtags = (entry.get("hashtags") or "").strip()
+    if not caption_text:
+        # Draft was lost (server restart between /start and Post tap). Use pre-written copy.
+        caption_text = (idea.get("caption") or "").strip()
+        hashtags = hashtags or (idea.get("hashtags") or "").strip()
     ig_caption = compose_ig_caption({"caption": caption_text, "hashtags": hashtags})
-    if not ig_caption:
-        # Defensive: queue entry had no caption (edge case if /start failed mid-way).
-        ig_caption = f"{idea['slide1_hook']} — Analytico Training Academy.\n\n{idea['cta']}"
 
     # 3. Publish to IG (~8-15s for container creation + status poll).
     send_telegram("sendMessage", {
