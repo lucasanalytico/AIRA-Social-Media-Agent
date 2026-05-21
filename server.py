@@ -172,9 +172,9 @@ def _fire_all_ideas(chat_id: str) -> None:
     _tg("sendMessage", {
         "chat_id": chat_id,
         "text": (
-            f"🔥 *Trend:* {trend['name']}\n"
+            f"✨ *This week's trend:* {trend['name']}\n"
             f"_{trend['description']}_\n\n"
-            f"Generating 5 cards with previews…"
+            f"Here are 5 content ideas ready to post:"
         ),
         "parse_mode": "Markdown",
     })
@@ -312,6 +312,9 @@ def _handle_schedule_choice(chat_id: str, idea_id: str, message_id: str, slot_ke
 def _handle_edit_tap(chat_id: str, idea_id: str, message_id: str) -> None:
     draft = state.get_draft(message_id) or {}
     current = draft.get("caption") or "_(no draft caption yet)_"
+    trends = cards.load_trends()
+    idea = next((i for i in trends["ideas"] if i["id"] == idea_id), None)
+    idea_title = idea["title"] if idea else idea_id
     state.set_pending_edit(chat_id, {
         "message_id": int(message_id),
         "idea_id": idea_id,
@@ -319,9 +322,9 @@ def _handle_edit_tap(chat_id: str, idea_id: str, message_id: str) -> None:
     _tg("sendMessage", {
         "chat_id": chat_id,
         "text": (
-            f"✏️ *Editing caption for {idea_id}*\n\n"
+            f"✏️ *Editing: {idea_title}*\n\n"
             f"Current draft:\n{current}\n\n"
-            f"Reply to this message with the new caption."
+            f"Reply with the new caption."
         ),
         "parse_mode": "Markdown",
     })

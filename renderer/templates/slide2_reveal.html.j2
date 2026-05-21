@@ -12,7 +12,7 @@
     <div class="stats-grid">
       {% for row in stats %}
       <div class="stat-row">
-        <div class="num">{{ "%02d"|format(loop.index) }}</div>
+        <div class="arrow">→</div>
         <div class="text">{{ row|safe }}</div>
       </div>
       {% endfor %}

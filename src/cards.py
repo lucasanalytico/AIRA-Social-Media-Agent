@@ -25,12 +25,16 @@ def build_card_text(
     lines = [
         f"💡 *{idea['title']}*",
         "",
-        f"🪝 *Slide 1 (hook):* {idea['slide1_hook']}",
-        f"🎯 *Slide 2 (reveal):* {idea['slide2_reveal']}",
-        f"📚 *Course angle:* {idea['course_angle']}",
+        f"🪝 *Hook:* {idea['slide1_hook']}",
+        f"🎯 *Reveal:* {idea['slide2_reveal']}",
+        f"📚 *Course:* {idea['course_angle']}",
     ]
     if caption:
-        lines += ["", "✍️ *Draft caption:*", caption]
+        caption_lines = caption.splitlines()
+        preview = "\n".join(caption_lines[:2])
+        if len(caption_lines) > 2:
+            preview += "…"
+        lines += ["", "✍️ *Draft caption:*", preview]
     if source and source.get("url"):
         label = (source.get("label") or "source").strip()[:80]
         url = source["url"].strip()
