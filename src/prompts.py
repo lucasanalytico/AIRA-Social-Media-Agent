@@ -1,15 +1,15 @@
-"""Locked brand + caption prompts for Analytico Training Academy.
+"""Locked brand + caption prompts for Meridian Digital.
 
 LOCKED per project CLAUDE.md. Changes go through PR review — single source of brand voice.
 
-Brand naming rule: always write the full name "Analytico Training Academy" in any
-output the audience can see. Never use the abbreviation "ATA".
+Brand naming rule: always write the full name "Meridian Digital" in any
+output the audience can see.
 """
 
-ANALYTICO_BRAND_CONTEXT = """
-You are writing Instagram captions for **Analytico Training Academy** — a Singapore-based
-training provider partnered with General Assembly. Analytico Training Academy delivers
-career-changer bootcamps and short courses, including:
+MERIDIAN_BRAND_CONTEXT = """
+You are writing Instagram captions for **Meridian Digital** — a Singapore-based
+digital training provider. Meridian Digital delivers career-changer bootcamps
+and short courses, including:
 
 - Software Engineering Immersive (SEI) — 12-week full-time full-stack bootcamp, JS/Python
 - Data Analytics — part-time, SQL/Python/Tableau, beginner-friendly
@@ -36,10 +36,10 @@ Caption structure for **Swipe-to-Reveal carousels**:
 4. Hashtags on a new line, 8–12 hashtags max
 """
 
-CAPTION_SYSTEM_INSTRUCTION = ANALYTICO_BRAND_CONTEXT.strip() + """
+CAPTION_SYSTEM_INSTRUCTION = MERIDIAN_BRAND_CONTEXT.strip() + """
 
-NAMING RULE: Always write the full name "Analytico Training Academy" in captions and
-hashtags. Never use "ATA" or any other abbreviation in audience-facing text.
+NAMING RULE: Always write the full name "Meridian Digital" in captions and
+hashtags. Never use abbreviations in audience-facing text.
 
 Output **valid JSON only** — no markdown fences, no commentary, no preamble. Schema:
 
@@ -53,7 +53,7 @@ Constraints:
 - Hashtags string: 8–12 hashtags, mix of broad (#sgcareer, #techsg) and niche (#dataanalyticssg, #generalassemblysg).
 - Never invent statistics — if the idea references stats, phrase them as "based on MOM 2024 data"
   or "according to GA's Singapore outcomes report" rather than hard numbers.
-- Never claim Analytico Training Academy is "the best" or "guaranteed" — frame as fit/outcomes, not superlatives.
+- Never claim Meridian Digital is "the best" or "guaranteed" — frame as fit/outcomes, not superlatives.
 """
 
 
@@ -75,7 +75,7 @@ def build_caption_prompt(idea: dict) -> str:
 # ---------------------------------------------------------------------------
 
 # LOCKED visual brand. Change only via PR.
-ANALYTICO_VISUAL_STYLE = (
+MERIDIAN_VISUAL_STYLE = (
     "Clean, modern, professional Instagram carousel slide for an education brand. "
     "Square 1:1 composition. Singapore-Asian aesthetic — not generic American stock. "
     "Palette: deep navy (#0B1F3A) background OR off-white (#F5F2EC), with one accent "
@@ -95,7 +95,7 @@ ANALYTICO_VISUAL_STYLE = (
 def build_slide1_image_prompt(idea: dict) -> str:
     """Slide 1 — the hook that makes viewers swipe."""
     return (
-        f"{ANALYTICO_VISUAL_STYLE}\n\n"
+        f"{MERIDIAN_VISUAL_STYLE}\n\n"
         f"This is SLIDE 1 of a 2-slide Swipe-to-Reveal Instagram carousel.\n"
         f"Goal: pose a curiosity-gap question that makes the viewer swipe.\n\n"
         f"Main headline text to render on the slide (render this exact text, "
@@ -104,7 +104,7 @@ def build_slide1_image_prompt(idea: dict) -> str:
         f"Bottom-right of the slide, small and subtle, include a swipe indicator: "
         f'an arrow icon "→" and the word "SWIPE" in small caps.\n\n'
         f"Bottom-left, small, include the wordmark "
-        f'"ANALYTICO TRAINING ACADEMY" in thin uppercase letterspaced caps.\n\n'
+        f'"MERIDIAN DIGITAL" in thin uppercase letterspaced caps.\n\n'
         f"Do NOT include any other text. Do NOT spell the headline wrong."
     )
 
@@ -112,7 +112,7 @@ def build_slide1_image_prompt(idea: dict) -> str:
 def build_slide2_image_prompt(idea: dict) -> str:
     """Slide 2 — the payoff/reveal."""
     return (
-        f"{ANALYTICO_VISUAL_STYLE}\n\n"
+        f"{MERIDIAN_VISUAL_STYLE}\n\n"
         f"This is SLIDE 2 of a 2-slide Swipe-to-Reveal Instagram carousel — the REVEAL.\n"
         f"Goal: deliver on the curiosity set up by slide 1.\n\n"
         f"Visual concept for the reveal:\n"
@@ -123,7 +123,7 @@ def build_slide2_image_prompt(idea: dict) -> str:
         f"Below the headline, render 2–3 short supporting bullet points or stat-like "
         f"phrases (each 3–6 words). All text must be legible on mobile.\n\n"
         f"Bottom-left, small, include the wordmark "
-        f'"ANALYTICO TRAINING ACADEMY" in thin uppercase letterspaced caps.\n\n'
+        f'"MERIDIAN DIGITAL" in thin uppercase letterspaced caps.\n\n'
         f"Do NOT spell anything wrong. Do NOT include the word SWIPE or any arrow icons "
         f"(this is the final slide). Visual style must match slide 1."
     )

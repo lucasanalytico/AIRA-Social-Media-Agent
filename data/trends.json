@@ -17,7 +17,7 @@
       "course_angle": "Data Analytics / Software Engineering Immersive",
       "cta": "Comment 'SALARY' for the full Singapore tech pay report.",
       "caption": "Curious what a career switch into tech actually pays in Singapore? 💼\n\nNodeFlair's 2026 Singapore tech salary data shows junior engineers earning ~S$4.8K/mo, mid-career S$7K+, and AI-fluent engineers commanding 18-25% pay premiums across every tier.\n\nThe numbers anchor everything: courses to pick, how aggressively to switch, what 'success' looks like 12 months in. Worth knowing before the curriculum, not after.\n\nComment 'SALARY' for the full Singapore tech pay breakdown.",
-      "hashtags": "#sgcareer #techsg #careertransition #upskillingsg #dataanalyticssg #softwareengineeringsg #generalassemblysg #analyticotrainingacademy",
+      "hashtags": "#sgcareer #techsg #careertransition #upskillingsg #dataanalyticssg #softwareengineeringsg #generalassemblysg #meridiandigital",
       "source": {
         "label": "Vulcan Post — Singapore tech salaries 2026 (NodeFlair data)",
         "url": "https://vulcanpost.com/911031/nodeflair-2026-singapore-tech-salaries/"
@@ -40,7 +40,7 @@
       "course_angle": "AI Bootcamp / Data Analytics",
       "cta": "DM us 'SKILL' for our free skill-gap diagnostic.",
       "caption": "Singapore tech recruiters keep saying the same thing — and it isn't 'more Python.' 🎯\n\nPer HRM Asia, AI literacy is the hardest-to-find skill (25% of employers struggle to find it) but 34% still cite adaptability and work ethic as the top soft-skill differentiators. The candidates getting hired in 2026 stack both: technical depth + AI fluency + the human stuff.\n\nIf you're upskilling on tech alone, you're optimising the wrong axis.\n\nDM us 'SKILL' for our free skill-gap diagnostic.",
-      "hashtags": "#sgcareer #techsg #aiskills #upskillingsg #careergrowth #softskills #generalassemblysg #analyticotrainingacademy #sgtech",
+      "hashtags": "#sgcareer #techsg #aiskills #upskillingsg #careergrowth #softskills #generalassemblysg #meridiandigital #sgtech",
       "source": {
         "label": "HRM Asia — AI literacy is Singapore's hardest-to-find skill",
         "url": "https://hrmasia.com/ai-skills-emerge-as-singapores-hardest-to-find-talent-gap/"
@@ -63,7 +63,7 @@
       "course_angle": "Software Engineering Immersive",
       "cta": "Tap the link in bio to see the project demo + apply.",
       "caption": "12 weeks. Zero coding background. Four full-stack production apps. 🚀\n\nGeneral Assembly's Singapore Software Engineering Immersive isn't a tutorial dump — it's a structured route from 'I open the terminal nervously' to shipping real apps with auth, database, deploy, the works. The 2021 outcomes report cited 95.7% job placement for grads who used career services.\n\nNot every student ships something this polished. But the ones who put the hours in consistently surprise themselves — and recruiters.\n\nTap the link in bio to see the project demo and apply.",
-      "hashtags": "#sgcareer #softwareengineeringsg #fullstackdev #careerchange #generalassemblysg #codingbootcamp #techsg #analyticotrainingacademy #sgjobs",
+      "hashtags": "#sgcareer #softwareengineeringsg #fullstackdev #careerchange #generalassemblysg #codingbootcamp #techsg #meridiandigital #sgjobs",
       "source": {
         "label": "General Assembly — Singapore Software Engineering Bootcamp",
         "url": "https://generalassemb.ly/students/courses/software-engineering-bootcamp/singapore"
@@ -86,7 +86,7 @@
       "course_angle": "Software Engineering Immersive / Career Pivot",
       "cta": "Save this post + DM 'PIVOT' for our career-change roadmap.",
       "caption": "You don't need a CS degree. You need three weeks of deliberate practice and one honest conversation with someone who's already pivoted. 🛠️\n\nSingapore's GovTech Career Kaki tool surfaces a consistent pattern across mid-career switchers: the candidates who pivot fastest treat the first three weeks like a job, not a course. One stack, one project, shipped publicly.\n\nSave this post + DM 'PIVOT' for our career-change roadmap.",
-      "hashtags": "#sgcareer #careerchange #careerpivot #upskillingsg #generalassemblysg #softwareengineeringsg #analyticotrainingacademy #techsg",
+      "hashtags": "#sgcareer #careerchange #careerpivot #upskillingsg #generalassemblysg #softwareengineeringsg #meridiandigital #techsg",
       "source": {
         "label": "GovTech — Career Kaki (mid-career switch in Singapore)",
         "url": "https://www.tech.gov.sg/technews/considering-a-mid-career-switch-in-singapore-meet-career-kaki/"
@@ -105,11 +105,11 @@
       "id": "workshop_invite",
       "title": "The Workshop Invite",
       "slide1_hook": "Want to learn AI for free?",
-      "slide2_reveal": "Details for the next Analytico Training Academy free AI workshop",
+      "slide2_reveal": "Details for the next Meridian Digital free AI workshop",
       "course_angle": "AI Bootcamp (lead-gen workshop)",
       "cta": "Register via the link in bio — limited seats.",
-      "caption": "Two hours. Zero cost. One framework for working with LLMs you can apply Monday morning. 🤖\n\nAnalytico Training Academy's next free AI workshop covers the practical workflow used by teams shipping LLM features in production — prompt patterns, retrieval, evaluation. Aligned with AI Singapore's national practitioner-first approach.\n\nBuilt for working professionals who want hands-on, not slideware. Seats are capped to keep the hands-on portion useful, not chaotic.\n\nRegister via the link in bio — limited seats.",
-      "hashtags": "#sgcareer #aiworkshop #aiskills #aibootcamp #techsg #upskillingsg #generalassemblysg #analyticotrainingacademy #freeworkshop",
+      "caption": "Two hours. Zero cost. One framework for working with LLMs you can apply Monday morning. 🤖\n\nMeridian Digital's next free AI workshop covers the practical workflow used by teams shipping LLM features in production — prompt patterns, retrieval, evaluation. Aligned with AI Singapore's national practitioner-first approach.\n\nBuilt for working professionals who want hands-on, not slideware. Seats are capped to keep the hands-on portion useful, not chaotic.\n\nRegister via the link in bio — limited seats.",
+      "hashtags": "#sgcareer #aiworkshop #aiskills #aibootcamp #techsg #upskillingsg #generalassemblysg #meridiandigital #freeworkshop",
       "source": {
         "label": "AI Singapore — National AI talent development programmes",
         "url": "https://learn.aisingapore.org/"

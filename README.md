@@ -1,6 +1,6 @@
 # AIRA Social Media Agent
 
-Telegram-driven Instagram carousel publisher for **Analytico Training Academy**.
+Telegram-driven Instagram carousel publisher for **Meridian Digital** (fictitious demo brand).
 
 Operator sends `/start` → bot fires **5 trend-based idea cards** with hand-written captions → operator taps **📤 Post / ✏️ Edit / 🗑 Dismiss** → on Post, a **2-slide branded carousel** (hook + reveal) is rendered from HTML templates and published live to Instagram via the Graph API.
 
@@ -42,7 +42,7 @@ For the full deploy walkthrough see [`docs/DEPLOY.md`](docs/DEPLOY.md).
 |---|---|---|
 | HTTP server | Python 3.11 stdlib `HTTPServer` | No Flask/FastAPI — single-process webhook is enough |
 | Captions / slide-2 copy | Hardcoded in `data/trends.json` | Demo-reliable, zero LLM cost. V2 = Gemini Flash with fallback (see [CLAUDE.md](CLAUDE.md)) |
-| Slide rendering | Jinja2 HTML templates + Playwright headless Chromium | Pixel-perfect Analytico brand, deterministic, free. Replaces paid image-gen APIs |
+| Slide rendering | Jinja2 HTML templates + Playwright headless Chromium | Pixel-perfect Meridian Digital brand, deterministic, free. Replaces paid image-gen APIs |
 | Image hosting | Same Render service at `GET /media/<post_id>/<n>.jpg` | No Cloudinary/S3 dependency for MVP |
 | Publishing | Instagram Graph API v23.0 | Business account, long-lived Page token |
 | Persistence | JSON files (`queue.json`, `posts_log.json`) | No database — fine for one-operator workflow |
@@ -79,7 +79,7 @@ Brand colour: teal `#03989e`. Typography: Inter (Google Fonts).
 │   ├── scheduler.py           Background thread, polls queue.json every 20s
 │   ├── schedule.py            SGT-aware slot calculation (Now / 7pm / Tmr 9am)
 │   ├── state.py               JSON persistence (queue, posts_log, pending_edits)
-│   └── prompts.py             Analytico brand context (kept for v2 LLM re-enablement)
+│   └── prompts.py             Meridian Digital brand context (kept for v2 LLM re-enablement)
 │
 └── docs/
     ├── DEPLOY.md              End-to-end Render deployment walkthrough

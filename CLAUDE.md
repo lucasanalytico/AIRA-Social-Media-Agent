@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Telegram-driven Instagram carousel publisher for **Analytico Training Academy (ATA)**. Operator sends `/start` → bot fires 5 idea cards based on a curated social-media trend → operator taps `Post`/`Edit`/`Dismiss` → on Post, a 2-slide carousel is generated (Nano Banana Pro) and published to IG (Graph API). UX mirrors **ClientPulse** (`c:\Projects\Client Pulse\server.py`).
+Telegram-driven Instagram carousel publisher for **Meridian Digital** (fictitious demo brand). Operator sends `/start` → bot fires 5 idea cards based on a curated social-media trend → operator taps `Post`/`Edit`/`Dismiss` → on Post, a 2-slide carousel is generated (Nano Banana Pro) and published to IG (Graph API). UX mirrors **ClientPulse** (`c:\Projects\Client Pulse\server.py`).
 
 ## Tech stack
 
@@ -18,13 +18,13 @@ Telegram-driven Instagram carousel publisher for **Analytico Training Academy (A
 1. **Trend + 5 ideas are hardcoded** in `data/trends.json` for MVP. No live trend discovery.
 2. **2 slides per carousel** — hook + reveal. Fixed count.
 3. **Caption source (v1):** pre-written in `trends.json` per idea. Zero LLM calls in the demo path.
-4. **Image gen (v1):** HTML + CSS via Jinja2 + Playwright. Pixel-perfect Analytico brand, deterministic, free. LLM image gen (Nano Banana Pro, Imagen, etc.) is paid-only — deferred to v2.
+4. **Image gen (v1):** HTML + CSS via Jinja2 + Playwright. Pixel-perfect Meridian Digital brand, deterministic, free. LLM image gen (Nano Banana Pro, Imagen, etc.) is paid-only — deferred to v2.
 5. **Image hosting:** same Render service at `GET /media/<post_id>/<n>.jpg`. No Cloudinary/S3 for MVP.
 6. **Schedule options:** Now / Tonight 7pm SGT / Tomorrow 9am SGT. Fixed three.
 7. **Auth:** `TELEGRAM_CHAT_IDS` allowlist. No public access.
 8. **No DB.** State in JSON files (`queue.json`, `posts_log.json`, `pending_edits.json`).
 9. **Edit scope:** caption only. Slides are not re-rolled on Edit.
-10. **Analytico brand context** baked into `src/prompts.py` — kept as the source of truth even though v1 doesn't call an LLM (v2 reuses it verbatim).
+10. **Meridian Digital brand context** baked into `src/prompts.py` — kept as the source of truth even though v1 doesn't call an LLM (v2 reuses it verbatim).
 
 ## V2: LLM re-enablement (deferred)
 
@@ -46,7 +46,7 @@ src/
   publisher.py          # IG Graph API publish
   scheduler.py          # background queue thread
   state.py              # JSON persistence
-  prompts.py            # ATA-locked brand prompts
+  prompts.py            # Meridian Digital brand prompts
 data/trends.json        # trend + 5 ideas
 media/<post_id>/<n>.jpg # generated slides (gitignored)
 ```
